@@ -75,15 +75,29 @@ def add_above_100_column(df: DataFrame) -> DataFrame:
     df['above_100'] = df['price'].astype(float) > 100
     return df
 
+def process_dataset(df: DataFrame) -> DataFrame:
+    """
+    Processes the dataset by applying a series of transformation functions.
+
+    Args: 
+        df (DataFrame): A DataFrame to process.
+
+    Returns:
+        DataFrame: A processed DataFrame adhering to the specified requirements.
+    """
+    df = split_name(df)
+    df = remove_leading_zeros(df)
+    df = drop_rows_without_name(df)
+    df = add_above_100_column(df)
+    return df
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
     """
     df1 = read_dataset('dataset1.csv')
-    df1 = split_name(df1)
-    df1 = remove_leading_zeros(df1)
-    df1 = drop_rows_without_name(df1)
-    df1 = add_above_100_column(df1)
+    df1 = process_dataset(df1)
+
     print(df1)
 
 if __name__ == "__main__":
