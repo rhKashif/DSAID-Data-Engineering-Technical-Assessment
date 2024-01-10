@@ -23,6 +23,7 @@ def read_dataset(csv_path: str) -> DataFrame:
     """
     return pd.read_csv(csv_path)
 
+
 def split_name(df: DataFrame) -> DataFrame:
     """
     Splits the 'name' field into 'first_name' and 'last_name'.
@@ -35,6 +36,7 @@ def split_name(df: DataFrame) -> DataFrame:
     """
     df[['first_name', 'last_name']] = df['name'].str.split(pat=' ',n=1, expand=True)
     return df
+
 
 def remove_leading_zeros(df: DataFrame) -> DataFrame:
     """
@@ -49,6 +51,7 @@ def remove_leading_zeros(df: DataFrame) -> DataFrame:
     df['price'] = df['price'].apply(lambda x: x.lstrip('0') if isinstance(x, str) else x)
     return df
 
+
 def drop_rows_without_name(df: DataFrame) -> DataFrame:
     """
     Drops rows from the DataFrame where the 'name' field is missing.
@@ -62,6 +65,7 @@ def drop_rows_without_name(df: DataFrame) -> DataFrame:
     df.dropna(subset=['name'], inplace=True)
     return df
 
+
 def add_above_100_column(df: DataFrame) -> DataFrame:
     """
     Adds a new column 'above_100' to indicate if 'price' is greater than 100.
@@ -74,6 +78,7 @@ def add_above_100_column(df: DataFrame) -> DataFrame:
     """
     df['above_100'] = df['price'].astype(float) > 100
     return df
+
 
 def process_dataset(df: DataFrame) -> DataFrame:
     """
@@ -91,6 +96,7 @@ def process_dataset(df: DataFrame) -> DataFrame:
     df = add_above_100_column(df)
     return df
 
+
 def combine_datasets(df1: DataFrame, df2: DataFrame) -> DataFrame:
     """
     Combines two DataFrames into one.
@@ -104,6 +110,18 @@ def combine_datasets(df1: DataFrame, df2: DataFrame) -> DataFrame:
     """
     return pd.concat([df1, df2], ignore_index=True)
 
+
+def save_processed_dataset(df, output_csv_path):
+    """
+    Saves the processed dataset to a CSV file.
+
+    Args:
+        df (DataFrame): The DataFrame to be saved.
+        output_csv_path (str): The file path where the CSV file will be saved.it 
+    """
+    df.to_csv(output_csv_path, index=False)
+
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
@@ -116,7 +134,10 @@ def main():
 
     combined_df = combine_datasets(processed_df1, processed_df2)
 
+    save_processed_dataset(combined_df, 'processed_combined_dataset.csv')
+
     print(combined_df)
+
 
 if __name__ == "__main__":
     main()
