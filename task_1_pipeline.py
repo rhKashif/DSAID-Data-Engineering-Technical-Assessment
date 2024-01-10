@@ -36,12 +36,26 @@ def split_name(df: DataFrame) -> DataFrame:
     df[['first_name', 'last_name']] = df['name'].str.split(' ', 1, expand=True)
     return df
 
+def remove_leading_zeros(df):
+    """
+    Removes leading zeros from the 'price' field.
+
+    Args: 
+        df (DataFrame): The DataFrame with a 'price' column where leading zeros are to be removed.
+
+    Returns:
+        DataFrame: The DataFrame with modified 'price' field.
+    """
+    df['price'] = df['price'].apply(lambda x: x.lstrip('0') if isinstance(x, str) else x)
+    return df
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
     """
     df1 = read_dataset('dataset1.csv')
     df1 = split_name(df1)
+    df1 = remove_leading_zeros(df1)
     print(df1)
 
 if __name__ == "__main__":
