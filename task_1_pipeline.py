@@ -136,8 +136,6 @@ def main():
 
     save_processed_dataset(combined_df, 'processed_combined_dataset.csv')
 
-    print(combined_df)
-
 
 if __name__ == "__main__":
     main()
