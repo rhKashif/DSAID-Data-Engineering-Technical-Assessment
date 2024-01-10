@@ -49,6 +49,19 @@ def remove_leading_zeros(df):
     df['price'] = df['price'].apply(lambda x: x.lstrip('0') if isinstance(x, str) else x)
     return df
 
+def drop_rows_without_name(df):
+    """
+    Drops rows from the DataFrame where the 'name' field is missing.
+
+    Args: 
+        df (DataFrame): The DataFrame from which rows with missing 'name' are to be dropped.
+
+    Returns:
+        DataFrame: The DataFrame with rows missing 'name' dropped.
+    """
+    df.dropna(subset=['name'], inplace=True)
+    return df
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
@@ -56,6 +69,7 @@ def main():
     df1 = read_dataset('dataset1.csv')
     df1 = split_name(df1)
     df1 = remove_leading_zeros(df1)
+    df1 = drop_rows_without_name(df1)
     print(df1)
 
 if __name__ == "__main__":
