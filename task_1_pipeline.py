@@ -91,14 +91,32 @@ def process_dataset(df: DataFrame) -> DataFrame:
     df = add_above_100_column(df)
     return df
 
+def combine_datasets(df1: DataFrame, df2: DataFrame) -> DataFrame:
+    """
+    Combines two DataFrames into one.
+
+    Args:
+        df1 (DataFrame): The first DataFrame to combine.
+        df2 (DataFrame): The second DataFrame to combine.
+
+    Returns:
+        DataFrame: A combined DataFrame from df1 and df2.
+    """
+    return pd.concat([df1, df2], ignore_index=True)
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
     """
     df1 = read_dataset('dataset1.csv')
-    df1 = process_dataset(df1)
+    df2 = read_dataset('dataset2.csv')
 
-    print(df1)
+    processed_df1 = process_dataset(df1)
+    processed_df2 = process_dataset(df2)
+
+    combined_df = combine_datasets(processed_df1, processed_df2)
+
+    print(combined_df)
 
 if __name__ == "__main__":
     main()
