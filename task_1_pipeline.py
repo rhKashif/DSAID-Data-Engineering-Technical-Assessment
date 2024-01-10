@@ -33,10 +33,10 @@ def split_name(df: DataFrame) -> DataFrame:
     Returns:
         DataFrame: The DataFrame with added 'first_name' and 'last_name' columns.
     """
-    df[['first_name', 'last_name']] = df['name'].str.split(' ', 1, expand=True)
+    df[['first_name', 'last_name']] = df['name'].str.split(pat=' ',n=1, expand=True)
     return df
 
-def remove_leading_zeros(df):
+def remove_leading_zeros(df: DataFrame) -> DataFrame:
     """
     Removes leading zeros from the 'price' field.
 
@@ -49,7 +49,7 @@ def remove_leading_zeros(df):
     df['price'] = df['price'].apply(lambda x: x.lstrip('0') if isinstance(x, str) else x)
     return df
 
-def drop_rows_without_name(df):
+def drop_rows_without_name(df: DataFrame) -> DataFrame:
     """
     Drops rows from the DataFrame where the 'name' field is missing.
 
@@ -62,6 +62,19 @@ def drop_rows_without_name(df):
     df.dropna(subset=['name'], inplace=True)
     return df
 
+def add_above_100_column(df: DataFrame) -> DataFrame:
+    """
+    Adds a new column 'above_100' to indicate if 'price' is greater than 100.
+
+    Args: 
+        df (DataFrame): The DataFrame to add the 'above_100' column to.
+
+    Returns:
+        DataFrame: The DataFrame with the new 'above_100' column.
+    """
+    df['above_100'] = df['price'].astype(float) > 100
+    return df
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
@@ -70,6 +83,7 @@ def main():
     df1 = split_name(df1)
     df1 = remove_leading_zeros(df1)
     df1 = drop_rows_without_name(df1)
+    df1 = add_above_100_column(df1)
     print(df1)
 
 if __name__ == "__main__":
