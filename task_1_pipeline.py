@@ -23,11 +23,25 @@ def read_dataset(csv_path: str) -> DataFrame:
     """
     return pd.read_csv(csv_path)
 
+def split_name(df: DataFrame) -> DataFrame:
+    """
+    Splits the 'name' field into 'first_name' and 'last_name'.
+
+    Args: 
+        df (DataFrame): The DataFrame with a 'name' column to be split.
+
+    Returns:
+        DataFrame: The DataFrame with added 'first_name' and 'last_name' columns.
+    """
+    df[['first_name', 'last_name']] = df['name'].str.split(' ', 1, expand=True)
+    return df
+
 def main():
     """
     Execute the script functions to process data in the provided CSV files
     """
     df1 = read_dataset('dataset1.csv')
+    df1 = split_name(df1)
     print(df1)
 
 if __name__ == "__main__":
